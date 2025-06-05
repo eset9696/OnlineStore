@@ -31,13 +31,5 @@ namespace OnlineStore.Controllers
             }
             return View(product);
         }
-        [Route("{controller}/Feedback/{action}/{id:int?}")]
-        public IActionResult GetFeedBack(int id)
-        {
-            FeedbackPageViewModel feedbackPageViewModel = new FeedbackPageViewModel();
-            feedbackPageViewModel.Reviews = _reviewService.GetReviews(id);
-            return View(feedbackPageViewModel);
-        }
-
     }
 }

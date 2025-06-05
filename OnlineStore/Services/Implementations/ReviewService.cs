@@ -13,7 +13,7 @@ namespace OnlineStore.Services.Implementations
         };
         public void AddReview(Review review)
         {
-            throw new NotImplementedException();
+            _reviewList.Add(review);
         }
 
         public LinkedList<Review> GetReviews(int productId)
@@ -27,6 +27,18 @@ namespace OnlineStore.Services.Implementations
                 }
             }
             return reviews;
+        }
+        public int NextId()
+        {
+            int maxId = 0;
+            foreach (Review review in _reviewList)
+            {
+                if (review.Id > maxId)
+                {
+                    maxId = review.Id;
+                }
+            }
+            return ++maxId;
         }
     }
 }

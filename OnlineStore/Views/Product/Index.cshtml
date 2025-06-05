@@ -1,15 +1,23 @@
-﻿@model OnlineStore.Models.Domain.Review
+﻿@model OnlineStore.Models.Domain.Product
 @*
     For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 *@
 @{
 }
+
 @section Header{
     <h2>@Model.Name</h2>
 
 }
-<p>Id: @Model.Id</p>
+<div class="card w-50 mb-3">
+    <div class="card-header">@Model.Name</div>
+    <div class="card-body">Какое-то описание товара</div>
+</div>
+<div>
+    <div>
+        <a asp-controller="Feedback" asp-action="Index" asp-route-id="@Model.Id">
+            <span>Прочитать отзывы о товаре</span>
+        </a>
+    </div>
+</div>
 
-<a asp-controller="Product" asp-action="Index" asp-route-id="@product.Id">
-    @product.Name
-</a>

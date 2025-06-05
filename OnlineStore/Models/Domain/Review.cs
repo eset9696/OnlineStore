@@ -3,10 +3,10 @@
     public class Review
     {
 
-        public int Id { get; set; }
-        public int ProductId { get; set; }
+        public required int Id { get; set; }
+        public required int ProductId { get; set; }
         public required string Author { get; set; }
         public string? ReviewText { get; set; }
-        public required int Rating { get; set; }
+        public int Rating { get; set; }
     }
 }

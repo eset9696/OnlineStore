@@ -7,5 +7,7 @@ namespace OnlineStore.Services
         public LinkedList<Review> GetReviews(int ProductId);
 
         public void AddReview(Review review);
+
+        public int NextId();
     }
 }
