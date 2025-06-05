@@ -14,12 +14,12 @@
     </div>
     <hr />
     <div>
-        <ul class="w-75">
+        <ul class="w-100 p-0">
             @foreach (Review review in Model.Reviews)
             {
                 <li class="list-group-item mb-3">
                     <div class="card w-50">
-                        <div class="card-header d-inline-flex justify-content-between">
+                        <div class="card-header d-inline-flex justify-content-between  bg-primary text-white">
                             <div>
                                 Author: @review.Author
                             </div>
@@ -27,7 +27,7 @@
                                 Raiting: @review.Rating
                             </div>
                         </div>
-                        <div class="card-body">
+                        <div class="card-body  bg-light">
                             @review.ReviewText
                         </div>
                     </div>

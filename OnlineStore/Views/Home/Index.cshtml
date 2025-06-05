@@ -8,16 +8,19 @@
 
 @if (Model.Products is not null)
 {
-    <ol class="list-group list-group-numbered">
-        @foreach (Product product in Model.Products)
-        {
-            <li class="list-group-item">
-                <a asp-controller="Product" asp-action="Index" asp-route-id="@product.Id">
-                    @product.Name
-                </a>
-            </li>
-        }
-    </ol>
+    <div>
+        <ol class="list-group list-group-numbered mb-3">
+            @foreach (Product product in Model.Products)
+            {
+                <li class="list-group-item mb-3">
+                    <a asp-controller="Product" asp-action="Index" asp-route-id="@product.Id">
+                        @product.Name
+                    </a>
+                </li>
+            }
+        </ol>
+    </div>
+    
     
 }
 else{
