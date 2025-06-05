@@ -18,21 +18,21 @@ namespace OnlineStore.Controllers
         }
 
         [Route("{controller}/{action}/{id:int}")]
-        public IActionResult Index(int productId)
+        public IActionResult Index(int id)
         {
             FeedbackPageViewModel feedbackPageViewModel = new FeedbackPageViewModel();
-            feedbackPageViewModel.Reviews = _reviewService.GetReviews(productId);
-            product = _productService.GetProductById(productId);
-            ViewBag.ProductId = product.Id;
+            feedbackPageViewModel.Reviews = _reviewService.GetReviews(id);
+            product = _productService.GetProductById(id);
+            ViewBag.productId = product.Id;
             ViewBag.ProductName = product.Name;
             return View(feedbackPageViewModel);
         }
 
         [Route("{controller}/{action}/{id:int}")]
-        public IActionResult NewReview(int productId)
+        public IActionResult NewReview(int id, string productName)
         {
-            ViewBag.ProductId = productId;
-            //ViewBag.ProductName = product.Name;
+            ViewBag.productId = id;
+            ViewBag.ProductName = productName;
             return View();
         }
         [HttpPost]
@@ -40,7 +40,7 @@ namespace OnlineStore.Controllers
         {
             review.Id = _reviewService.NextId();
             _reviewService.AddReview(review);
-            return RedirectToAction("Index", "Product");
+            return RedirectToAction("Index", "Home");
         }
     }
 }
