@@ -1,0 +1,21 @@
+﻿<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css">
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <title>@(ViewBag.Title ?? "Online Store")</title>
+</head>
+<body>
+    <div>
+        @if (IsSectionDefined("Header"))
+        {
+            <div>
+                @RenderSection("Header")
+            </div>
+        }
+        @RenderBody()
+    </div>
+</body>
+</html>
