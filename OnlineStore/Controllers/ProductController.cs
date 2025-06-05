@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using OnlineStore.Models.Domain;
+using OnlineStore.Models.View;
 using OnlineStore.Services;
 
 namespace OnlineStore.Controllers
@@ -7,10 +8,13 @@ namespace OnlineStore.Controllers
     public class ProductController : Controller
     {
         private readonly IProductService _productService;
-
-        public ProductController(IProductService productService)
+        private readonly IReviewService _reviewService;
+        ProductPageViewModel productPageViewModel = new ProductPageViewModel();
+        
+        public ProductController(IProductService productService, IReviewService reviewService)
         {
             _productService = productService;
+            _reviewService = reviewService;
         }
 
         [Route("{controller}/{action}/{id:int?}")]
@@ -20,13 +24,28 @@ namespace OnlineStore.Controllers
             {
                 return RedirectToAction("Index", "Home");
             }
+            ProductPageViewModel productPageViewModel = new ProductPageViewModel()
+            {
+                CurrentProduct = _productService.GetProductById(id),
+                ProductReviews = _reviewService.GetProductReviews(id)
+            };
+            //productPageViewModel.;
+            //productPageViewModel.ProductReviews = _reviewService.GetProductReviews(id);
 
-            Product? product = _productService.GetProductById(id);
-            if (product == null)
+            if (productPageViewModel.CurrentProduct == null)
             {
                 return RedirectToAction("Index", "Home");
             }
-            return View(product);
+
+            return View(productPageViewModel);
+        }
+        [HttpPost]
+        public IActionResult AddReview()
+        {
+            //_reviewService.AddReview();
+
+            //Console.WriteLine(productPageViewModel.NewReview.Author);
+            return RedirectToAction("Index", "Product");
         }
 
     }
