@@ -1,4 +1,4 @@
-﻿@model OnlineStore.Models.Domain.Product
+﻿@model OnlineStore.Models.Domain.Review
 @*
     For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 *@
@@ -9,3 +9,7 @@
 
 }
 <p>Id: @Model.Id</p>
+
+<a asp-controller="Product" asp-action="Index" asp-route-id="@product.Id">
+    @product.Name
+</a>
