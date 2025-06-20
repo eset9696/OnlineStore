@@ -7,6 +7,7 @@ namespace OnlineStore.Controllers
 {
     public class HomeController : Controller
     {
+        
         public IActionResult Index([FromServices] IProductService productService)
         {
             HomePageViewModel viewModel = new HomePageViewModel()
