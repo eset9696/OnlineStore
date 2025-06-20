@@ -23,13 +23,34 @@ namespace OnlineStore.Controllers
             {
                 return RedirectToAction("Index", "Home");
             }
+            Product currentProduct = _productService.GetProductById(id);
 
-            Product? product = _productService.GetProductById(id);
-            if (product == null)
+            if (currentProduct == null)
             {
                 return RedirectToAction("Index", "Home");
             }
-            return View(product);
+
+            ProductPageViewModel pPVM = new ProductPageViewModel()
+            {
+                CurrentProduct = currentProduct,
+                Reviews = _reviewService.GetReviews(id)
+            };
+            
+            return View(pPVM);
+        }
+
+        [HttpPost]
+        [Route("{controller}/{action}/{id:int?}")]
+        public IActionResult CreateReview(string Author, string? Content, int Rating, int ProductId)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest();
+            }
+            
+            _reviewService.AddReview(Author, Content, Rating, ProductId);
+
+            return RedirectToAction("Index", new { id = ProductId});
         }
     }
 }

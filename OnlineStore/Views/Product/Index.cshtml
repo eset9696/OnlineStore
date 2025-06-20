@@ -1,24 +1,63 @@
-﻿@model OnlineStore.Models.Domain.Product
-@*
-    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
-*@
+﻿@using OnlineStore.Helpers.Html
+@using OnlineStore.Models.Domain
+@model OnlineStore.Models.View.ProductPageViewModel
 @{
 }
 
 @section Header{
-    <h2>@Model.Name</h2>
+    <h2>@Model.CurrentProduct.Name</h2>
 
 }
 <div>
     <div class="card w-50 mb-3">
-        <div class="card-header">@Model.Name</div>
+        <div class="card-header">@Model.CurrentProduct.Name</div>
         <div class="card-body">Какое-то описание товара</div>
     </div>
-    <div>
+    <div class="m-3">
+        <h3>Отзывы о товаре: @Model.CurrentProduct.Name</h3>
+        <div class="card w-50">
+            @using (@Html.BeginForm(actionName: "CreateReview", controllerName: "Product", FormMethod.Post))
+            {
+                <div class="card-header">
+                    @Html.Label("Author", "Введите свой никнейм:")
+                    @Html.TextBox("Author")
+                    @Html.DropDownList("Rating", new SelectList(Model.NewReviewRating), "Ваша оценка")
+                </div>
+                <div class="card-body">
+                    @Html.Label("Content", "Введите свой отзыв:")
+                    @Html.TextArea("Content", "", 10, 75, null)
+                </div>
+                <div class="card-footer">
+                    @*<input type="hidden" asp-route-product="@Model.CurrentProduct.Id" value="@Model.CurrentProduct.Id" />*@
+                    @Html.Hidden("ProductId", Model.CurrentProduct.Id)
+                    <input type="submit" name="createReview" value="Оставить отзыв" />
+                </div>
+            }
+        </div>
+        <hr />
         <div>
-            <a class="btn btn-primary" asp-controller="Feedback" asp-action="Index" asp-route-id="@Model.Id">
-                <span>Прочитать отзывы о товаре</span>
-            </a>
+            @Html.CreateList(Model.Reviews)
+            @*<ul class="w-100 p-0">
+                
+                foreach (Review review in Model.Reviews)
+                {
+                    <li class="list-group-item mb-3">
+                        <div class="card w-50">
+                            <div class="card-header d-inline-flex justify-content-between  bg-primary text-white">
+                                <div>
+                                    Author: @review.Author
+                                </div>
+                                <div>
+                                    Raiting: @review.Rating
+                                </div>
+                            </div>
+                            <div class="card-body  bg-light">
+                                @review.Content
+                            </div>
+                        </div>
+                    </li>
+                }
+            </ul>*@
         </div>
     </div>
 </div>

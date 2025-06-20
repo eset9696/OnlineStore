@@ -1,37 +1,42 @@
 ﻿using OnlineStore.Models.Domain;
+using System.Xml.Linq;
+using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace OnlineStore.Services.Implementations
 {
     public class ReviewService : IReviewService
     {
-        private readonly List<Review> _reviewList = new List<Review>()
+        private readonly List<Review> _reviews = new List<Review>()
         { 
-            new Review(){Id = 0, ProductId = 0, Author = "Dan99", Rating = 5, ReviewText = "Good stuff"},
-            new Review(){Id = 1, ProductId = 1, Author = "Mike12", Rating = 4, ReviewText = "Good choise"},
-            new Review(){Id = 2, ProductId = 2, Author = "Ivan2020", Rating = 2, ReviewText = "shit!!!!!"},
-            new Review(){Id = 3, ProductId = 3, Author = "Sam87", Rating = 3, ReviewText = "I'm to old for this shit"},
+            new Review(){Id = 0, ProductId = 0, Author = "Dan99", Rating = 5, Content = "Good stuff", CreatedAt = DateTime.Now},
+            new Review(){Id = 1, ProductId = 1, Author = "Mike12", Rating = 4, Content = "Good choise", CreatedAt = DateTime.Now},
+            new Review(){Id = 2, ProductId = 2, Author = "Ivan2020", Rating = 2, Content = "shit!!!!!", CreatedAt = DateTime.Now},
+            new Review(){Id = 3, ProductId = 3, Author = "Sam87", Rating = 3, Content = "I'm to old for this shit", CreatedAt = DateTime.Now},
         };
-        public void AddReview(Review review)
+        public void AddReview(string name, string? content, int rating, int productId)
         {
-            _reviewList.Add(review);
+            Review newReview = new Review()
+            {
+                Id = NextId(),
+                ProductId = productId,
+                Author = name,
+                Content = content,
+                Rating = rating,
+                CreatedAt = DateTime.Now,
+            };
+            _reviews.Add(newReview);
         }
 
-        public LinkedList<Review> GetReviews(int productId)
+        public List<Review> GetReviews(int productId)
         {
-            LinkedList<Review> reviews = new LinkedList<Review>();
-            foreach (Review review in _reviewList)
-            {
-                if(review.ProductId == productId)
-                {
-                    reviews.AddFirst(review);
-                }
-            }
-            return reviews;
+            List<Review> lastReviews = new List<Review>(_reviews).Where(review => review.ProductId == productId).ToList();
+            lastReviews.Reverse();
+            return lastReviews;
         }
         public int NextId()
         {
             int maxId = 0;
-            foreach (Review review in _reviewList)
+            foreach (Review review in _reviews)
             {
                 if (review.Id > maxId)
                 {
