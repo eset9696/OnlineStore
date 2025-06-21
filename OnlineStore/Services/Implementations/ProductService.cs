@@ -1,19 +1,19 @@
-﻿using OnlineStore.Models.Domain;
+﻿using Microsoft.Data.SqlClient;
+using OnlineStore.Models.Domain;
 using System.Xml.Linq;
 
 namespace OnlineStore.Services.Implementations
 {
     public class ProductService : IProductService
     {
-        private readonly List<Product> _products = new List<Product>() 
-        { 
-            new Product() { Id = 0, Name = "P1" },
-            new Product() { Id = 1, Name = "P2" },
-            new Product() { Id = 2, Name = "P3" }
-        };
-        public Product? GetProductById(int id)
+        private readonly string _connectionString;
+        public ProductService(IConfiguration configuration)
         {
-            foreach (Product item in _products) 
+            _connectionString = configuration.GetConnectionString("Default");
+        }
+        public Product? GetProductById(long id)
+        {
+            foreach (Product item in GetProducts()) 
             {
                 if(item.Id == id) return item;
             }
@@ -22,7 +22,27 @@ namespace OnlineStore.Services.Implementations
 
         public List<Product> GetProducts()
         {
-            return _products;
+            List<Product> products = new List<Product>();
+
+            using(SqlConnection connection = new SqlConnection(_connectionString))
+            {
+                connection.Open();
+                SqlCommand cmd = connection.CreateCommand();
+                cmd.CommandText = "SELECT * FROM Products;";
+
+                SqlDataReader reader = cmd.ExecuteReader();
+                while (reader.Read())
+                {
+                    Product item = new Product()
+                    {
+                        Id = reader.GetInt64(0),
+                        Name = reader.GetString(1)
+                    };
+                    products.Add(item);
+                }
+            }
+
+            return products;
         }
     };
 }

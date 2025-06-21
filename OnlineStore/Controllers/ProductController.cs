@@ -28,6 +28,6 @@ namespace OnlineStore.Controllers
             }
             return View(product);
         }
-
+        // 
     }
 }
