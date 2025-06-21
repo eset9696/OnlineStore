@@ -36,28 +36,13 @@
         </div>
         <hr />
         <div>
-            @Html.CreateList(Model.Reviews)
-            @*<ul class="w-100 p-0">
+            <ul class="w-100 p-0">
                 
-                foreach (Review review in Model.Reviews)
+                @foreach (Review review in Model.Reviews)
                 {
-                    <li class="list-group-item mb-3">
-                        <div class="card w-50">
-                            <div class="card-header d-inline-flex justify-content-between  bg-primary text-white">
-                                <div>
-                                    Author: @review.Author
-                                </div>
-                                <div>
-                                    Raiting: @review.Rating
-                                </div>
-                            </div>
-                            <div class="card-body  bg-light">
-                                @review.Content
-                            </div>
-                        </div>
-                    </li>
+                    @Html.RenderReviewListElement(review)
                 }
-            </ul>*@
+            </ul>
         </div>
     </div>
 </div>
