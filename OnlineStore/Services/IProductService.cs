@@ -7,5 +7,7 @@ namespace OnlineStore.Services
         List<Product> GetProducts();
 
         Product? GetProductById(long id);
+
+        //bool AddProducts(List<Product> products);
     }
 }

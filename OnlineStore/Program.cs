@@ -1,3 +1,5 @@
+using OnlineStore.Data.Repositories;
+using OnlineStore.Data.Repositories.Implementations;
 using OnlineStore.Services;
 using OnlineStore.Services.Implementations;
 
@@ -11,6 +13,10 @@ namespace OnlineStore
 
             builder.Services.AddControllersWithViews();
 
+
+            builder.Services.AddScoped<BaseRepository>();
+            builder.Services.AddScoped<IProductRepository, ProductRepository>();
+            builder.Services.AddScoped<IUserReviewRepository, UserReviewRepository>();
             builder.Services.AddScoped<IProductService, ProductService>();
 
             var app = builder.Build();

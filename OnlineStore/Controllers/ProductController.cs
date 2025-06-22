@@ -28,6 +28,15 @@ namespace OnlineStore.Controllers
             }
             return View(product);
         }
-        // 
+
+        /*public IActionResult AddProducts(Product[] products)
+        {
+            bool isSuccess = _productService.AddProducts(new List<Product>(products));
+            if (!isSuccess)
+            {
+                return BadRequest();
+            }
+            return Ok();
+        }*/
     }
 }
