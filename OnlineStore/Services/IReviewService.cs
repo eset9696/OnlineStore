@@ -4,10 +4,9 @@ namespace OnlineStore.Services
 {
     public interface IReviewService
     {
-        public List<Review> GetReviews(int ProductId);
+        public List<Review> GetReviews(long ProductId);
 
-        public void AddReview(string name, string? content, int rating, int productId);
+        public void AddReview(string name, string? content, int rating, long productId);
 
-        public int NextId();
     }
 }

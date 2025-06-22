@@ -2,9 +2,12 @@
 {
     public class Product
     {
-        public int Id { get; set; }
-        public string? Name { get; set; }
+        public long Id { get; set; }
+        public required string Name { get; set; }
 
-        public List<Review> Reviews { get; set; }
+        public string? Description { get; set; }
+
+        public required decimal Price { get; set; }
+
     }
 }

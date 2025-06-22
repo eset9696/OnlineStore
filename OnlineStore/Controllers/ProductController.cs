@@ -16,14 +16,14 @@ namespace OnlineStore.Controllers
             _reviewService = reviewService;
         }
 
-        [Route("{controller}/{action}/{id:int?}")]
-        public IActionResult Index(int id)
+        [Route("{controller}/{action}/{id:long?}")]
+        public IActionResult Index(long id)
         {
             if (id == null)
             {
                 return RedirectToAction("Index", "Home");
             }
-            Product currentProduct = _productService.GetProductById(id);
+            Product? currentProduct = _productService.GetProductById(id);
 
             if (currentProduct == null)
             {
@@ -40,8 +40,8 @@ namespace OnlineStore.Controllers
         }
 
         [HttpPost]
-        [Route("{controller}/{action}/{id:int?}")]
-        public IActionResult CreateReview(string Author, string? Content, int Rating, int ProductId)
+        [Route("{controller}/{action}/{id:long?}")]
+        public IActionResult CreateReview(string Author, string? Content, int Rating, long ProductId)
         {
             if (!ModelState.IsValid)
             {

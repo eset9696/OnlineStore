@@ -1,4 +1,5 @@
-﻿using OnlineStore.Models.Domain;
+﻿using Microsoft.Data.SqlClient;
+using OnlineStore.Models.Domain;
 using System.Xml.Linq;
 using static System.Runtime.InteropServices.JavaScript.JSType;
 
@@ -6,36 +7,66 @@ namespace OnlineStore.Services.Implementations
 {
     public class ReviewService : IReviewService
     {
-        private readonly List<Review> _reviews = new List<Review>()
-        { 
-            new Review(){Id = 0, ProductId = 0, Author = "Dan99", Rating = 5, Content = "Good stuff", CreatedAt = DateTime.Now},
-            new Review(){Id = 1, ProductId = 1, Author = "Mike12", Rating = 4, Content = "Good choise", CreatedAt = DateTime.Now},
-            new Review(){Id = 2, ProductId = 2, Author = "Ivan2020", Rating = 2, Content = "shit!!!!!", CreatedAt = DateTime.Now},
-            new Review(){Id = 3, ProductId = 3, Author = "Sam87", Rating = 3, Content = "I'm to old for this shit", CreatedAt = DateTime.Now},
-        };
-        public void AddReview(string name, string? content, int rating, int productId)
+
+        private readonly string? _connectionString;
+
+        public ReviewService(IConfiguration configuration) 
+        {
+            _connectionString = configuration.GetConnectionString("Default");
+        }
+
+        
+        public void AddReview(string name, string? content, int rating, long productId)
         {
             Review newReview = new Review()
             {
-                Id = NextId(),
                 ProductId = productId,
                 Author = name,
                 Content = content,
                 Rating = rating,
                 CreatedAt = DateTime.Now,
             };
-            _reviews.Add(newReview);
+            //_reviews.Add(newReview);
         }
 
-        public List<Review> GetReviews(int productId)
+        public List<Review> GetReviews(long productId)
         {
-            List<Review> lastReviews = new List<Review>(_reviews).Where(review => review.ProductId == productId).ToList();
+
+            List<Review> reviews = new List<Review>();
+
+            using (SqlConnection connection = new SqlConnection(_connectionString))
+            {
+                connection.Open();
+
+                SqlCommand sqlCommand = connection.CreateCommand();
+                sqlCommand.CommandText = @$"SELECT * FROM Reviews WHERE ProductId = {productId}";
+
+                SqlDataReader reader = sqlCommand.ExecuteReader();
+
+                while (reader.Read())
+                {
+                    Review review = new Review()
+                    {
+                        Id = reader.GetInt64(0),
+                        ProductId = reader.GetInt64(1),
+                        Author = reader.GetString(2),
+                        Content = reader.GetString(3),
+                        Rating = (int)reader.GetByte(4),
+                        CreatedAt = reader.GetDateTime(5)
+                    };
+                    reviews.Add(review);
+                }
+            }
+
+            return reviews;
+            /*List<Review> lastReviews = new List<Review>(_reviews).Where(review => review.ProductId == productId).ToList();
             lastReviews.Reverse();
-            return lastReviews;
+            return lastReviews;*/
         }
-        public int NextId()
+
+        /*public long NextId()
         {
-            int maxId = 0;
+            long maxId = 0;
             foreach (Review review in _reviews)
             {
                 if (review.Id > maxId)
@@ -44,6 +75,6 @@ namespace OnlineStore.Services.Implementations
                 }
             }
             return ++maxId;
-        }
+        }*/
     }
 }

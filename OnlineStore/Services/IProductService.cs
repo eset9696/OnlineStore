@@ -6,6 +6,6 @@ namespace OnlineStore.Services
     {
         List<Product> GetProducts();
 
-        Product? GetProductById(int id);
+        Product? GetProductById(long id);
     }
 }

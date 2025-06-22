@@ -9,7 +9,7 @@ namespace OnlineStore.Controllers
     {
         [Route("/")]
         [Route("{controller}")]
-        [Route("{controller}/{action}/{id:int?}")]
+        [Route("{controller}/{action}")]
         public IActionResult Index([FromServices] IProductService productService)
         {
             HomePageViewModel viewModel = new HomePageViewModel()
