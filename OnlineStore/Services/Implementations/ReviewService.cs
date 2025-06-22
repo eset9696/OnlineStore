@@ -16,12 +16,25 @@ namespace OnlineStore.Services.Implementations
         }
 
         
-        public void AddReview(string name, string? content, int rating, long productId)
+        public void AddReview(string author, string? content, byte rating, long productId)
         {
+
+            using(SqlConnection connection = new SqlConnection(_connectionString))
+            {
+                connection.Open();
+
+                SqlCommand sqlCommand = connection.CreateCommand();
+                sqlCommand.CommandText = @$"INSERT INTO Reviews (ProductId, Author, Content, Rating, CreatedAt) 
+                                            VALUES('{productId}', '{author}', '{content}', '{rating}', @dateTime)";
+                sqlCommand.Parameters.AddWithValue("@dateTime", DateTime.Now);
+                sqlCommand.ExecuteNonQuery();
+            }
+            
+
             Review newReview = new Review()
             {
                 ProductId = productId,
-                Author = name,
+                Author = author,
                 Content = content,
                 Rating = rating,
                 CreatedAt = DateTime.Now,
@@ -51,30 +64,14 @@ namespace OnlineStore.Services.Implementations
                         ProductId = reader.GetInt64(1),
                         Author = reader.GetString(2),
                         Content = reader.GetString(3),
-                        Rating = (int)reader.GetByte(4),
+                        Rating = reader.GetByte(4),
                         CreatedAt = reader.GetDateTime(5)
                     };
                     reviews.Add(review);
                 }
             }
-
+            reviews.Reverse();
             return reviews;
-            /*List<Review> lastReviews = new List<Review>(_reviews).Where(review => review.ProductId == productId).ToList();
-            lastReviews.Reverse();
-            return lastReviews;*/
         }
-
-        /*public long NextId()
-        {
-            long maxId = 0;
-            foreach (Review review in _reviews)
-            {
-                if (review.Id > maxId)
-                {
-                    maxId = review.Id;
-                }
-            }
-            return ++maxId;
-        }*/
     }
 }

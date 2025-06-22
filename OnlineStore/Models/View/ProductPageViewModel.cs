@@ -8,7 +8,7 @@ namespace OnlineStore.Models.View
 
         public Review? NewReview { get; set; }
 
-        public List<int> NewReviewRating = new List<int>() { 5, 4, 3, 2, 1 };
+        public List<byte> NewReviewRating = new List<byte>() { 5, 4, 3, 2, 1 };
         public List<Review> Reviews { get; set; } = new List<Review>();
     }
 }

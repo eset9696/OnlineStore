@@ -41,7 +41,7 @@ namespace OnlineStore.Controllers
 
         [HttpPost]
         [Route("{controller}/{action}/{id:long?}")]
-        public IActionResult CreateReview(string Author, string? Content, int Rating, long ProductId)
+        public IActionResult CreateReview(string Author, string? Content, byte Rating, long ProductId)
         {
             if (!ModelState.IsValid)
             {

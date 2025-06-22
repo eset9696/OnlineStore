@@ -6,7 +6,7 @@ namespace OnlineStore.Services
     {
         public List<Review> GetReviews(long ProductId);
 
-        public void AddReview(string name, string? content, int rating, long productId);
+        public void AddReview(string author, string? content, byte rating, long productId);
 
     }
 }

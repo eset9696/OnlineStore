@@ -13,7 +13,7 @@ namespace OnlineStore.Models.Domain
 
         public string? Content { get; set; }
        
-        public required int Rating { get; set; }
+        public required byte Rating { get; set; }
 
         public required DateTime CreatedAt { get; set; }
 
